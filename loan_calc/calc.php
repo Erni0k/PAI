@@ -47,17 +47,9 @@ if ($czas > 50) {
     $errors[] = "Czas trwania kredytu jest zbyt długi (max 50 lat).";
 }
 
-// Jeśli są błędy, wyświetl je i zatrzymaj wykonanie
+// Jeśli są błędy, przekaż je do widoku
 if (!empty($errors)) {
-    echo "<!DOCTYPE html><html><head><meta charset='UTF-8'><title>Błąd walidacji</title></head><body>";
-    echo "<div style='color: red; padding: 20px; border: 1px solid red; margin: 20px;'>";
-    echo "<h3>Błędy walidacji:</h3><ul>";
-    foreach ($errors as $error) {
-        echo "<li>" . htmlspecialchars($error) . "</li>";
-    }
-    echo "</ul>";
-    echo "<a href='view.php'>Wróć do formularza</a>";
-    echo "</div></body></html>";
+    include 'view.php';
     exit;
 }
 

@@ -1,0 +1,88 @@
+<section id="wrapper">
+
+    <section id="one" class="wrapper spotlight style1">
+        <div class="inner">
+            
+            {if isset($errors) && count($errors) > 0}
+                <div class="box" style="background-color: #fee; border: 2px solid #c33;">
+                    <h3 style="color: #c33;">Błędy walidacji:</h3>
+                    <ul style="margin-left: 20px; color: #c33;">
+                        {foreach from=$errors item=error}
+                            <li>{$error|escape:'html'}</li>
+                        {/foreach}
+                    </ul>
+                </div>
+            {/if}
+
+            <div class="content">
+                <form action="{$smarty.server.PHP_SELF}" method="GET" style="color: #000;">
+                    <div class="row gtr-uniform">
+                        <div class="col-12">
+                            <label for="amount" style="color: #000;">Kwota kredytu (zł):</label>
+                            <input type="number" id="amount" name="amount" step="0.01" value="{$kwota|escape:'html'}" required style="color: #000;">
+                        </div>
+                        <div class="col-12">
+                            <label for="interest" style="color: #000;">Oprocentowanie roczne (%):</label>
+                            <select id="interest" name="interest" required style="color: #000;">
+                                {section name=i start=1 loop=21}
+                                    <option value="{$smarty.section.i.index}" {if isset($oprocentowanie) && $oprocentowanie == $smarty.section.i.index}selected{/if} style="color: #000;">{$smarty.section.i.index}%</option>
+                                {/section}
+                            </select>
+                        </div>
+                        <div class="col-12">
+                            <label for="term" style="color: #000;">Czas trwania kredytu (lata):</label>
+                            <input type="number" id="term" name="term" step="0.01" value="{$czas|escape:'html'}" required style="color: #000;">
+                        </div>
+                        <div class="col-12">
+                            <ul class="actions">
+                                <li><input type="submit" value="Oblicz ratę" class="primary"></li>
+                            </ul>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </section>
+
+    {if isset($rata) && isset($kwota_cal)}
+    <section id="two" class="wrapper alt spotlight style2">
+        <div class="inner">
+            <div class="content">
+                <h2 class="major">Wyniki obliczeń</h2>
+                <div class="table-wrapper">
+                    <table class="alt">
+                        <tbody>
+                            <tr>
+                                <td><strong>Kwota kredytu:</strong></td>
+                                <td>{$kwota|string_format:"%.2f"|replace:'.':','} zł</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Oprocentowanie roczne:</strong></td>
+                                <td>{$oprocentowanie|string_format:"%.2f"|replace:'.':','} %</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Czas trwania:</strong></td>
+                                <td>{$czas|string_format:"%.2f"|replace:'.':','} lat ({$n} miesięcy)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Miesięczna rata:</strong></td>
+                                <td><span style="font-size: 1.2em; color: #4c5c96;"><strong>{$rata|string_format:"%.2f"|replace:'.':','} zł</strong></span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Całkowita kwota do spłaty:</strong></td>
+                                <td><span style="font-size: 1.2em; color: #4c5c96;"><strong>{$kwota_cal|string_format:"%.2f"|replace:'.':','} zł</strong></span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Całkowity koszt kredytu:</strong></td>
+                                <td>{($kwota_cal - $kwota)|string_format:"%.2f"|replace:'.':','} zł</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+    {/if}
+
+</section>

@@ -1,47 +1,52 @@
-# Projektowanie Aplikacji Internetowych
+# Projektowanie Aplikacji Internetowych (PAI)
 
-Repository dla projektów z przedmiotu PAI.
+Repozytorium zawiera warianty kalkulatora kredytowego realizowane w ramach zajęć.
 
-## Projekty
+## Struktura projektów
 
-### Kalkulator Kredytowy - Wersja z szablonem CSS (`loan_calc_temp/`)
+### 1) Wersja podstawowa (`loan_calc/`)
 
-Aplikacja do obliczania rat kredytu z profesjonalnym interfejsem użytkownika opartym na szablonie HTML5 UP "Solid State".
+Prosty kalkulator kredytowy w PHP.
 
-**Funkcje:**
-- Obliczanie miesięcznej raty kredytu
-- Obliczanie całkowitej kwoty do spłaty
-- Obliczanie całkowitego kosztu kredytu
-- Walidacja danych wejściowych
-- Responsywny design
-- Nowoczesny interfejs użytkownika
-- Animacje i efekty wizualne
-
-**Technologie:**
-- PHP 8.2+
-- HTML5
-- CSS3 (szablon Solid State)
-- JavaScript (jQuery)
-
-**Struktura:**
-- `app/calc.php` - logika biznesowa i walidacja
-- `app/view.php` - warstwa prezentacji
-- `assets/` - zasoby CSS, JS, fonty
-- `images/` - obrazy tła
-
-**Uruchomienie:**
-```
-http://localhost/projekty/PAI/loan_calc_temp/
-```
+**Najważniejsze elementy:**
+- obliczanie miesięcznej raty,
+- obliczanie całkowitej kwoty do spłaty,
+- podstawowa walidacja danych.
 
 ---
 
-### Kalkulator Kredytowy - Wersja podstawowa (`loan_calc/`)
+### 2) Wersja z szablonem HTML/CSS (`loan_calc_temp/`)
 
-Prosta aplikacja do obliczania rat kredytu.
+Kalkulator oparty o motyw HTML5 UP (Solid State), z rozdzieleniem logiki i widoku.
 
-**Funkcje:**
-- Obliczanie miesięcznej raty
-- Obliczanie całkowitej kwoty do spłaty
-- Walidacja danych wejściowych
+**Najważniejsze elementy:**
+- walidacja danych wejściowych,
+- obliczanie raty, całkowitej spłaty i kosztu kredytu,
+- responsywny interfejs (`assets/` + `images/`),
+- logika w `app/calc.php`, widok w `app/view.php`.
 
+---
+
+### 3) Wersja Smarty (`loan_calc_smarty/`)
+
+Wersja po konwersji do Smarty, z rozdzieleniem layoutu i treści.
+
+**Aktualny podział widoków:**
+- `templates/calc.tpl` – layout strony (header + footer),
+- `app/calc.html` – część środkowa (formularz + wyniki),
+- `app/calc.php` – logika biznesowa i przypisanie danych do Smarty.
+
+**Katalogi pomocnicze Smarty:**
+- `templates_c/` – skompilowane szablony,
+- `cache/` – cache szablonów,
+- `configs/` – konfiguracja Smarty.
+
+## Uruchomienie
+
+Przykładowe adresy lokalne:
+
+- `http://localhost/loan_calc/`
+- `http://localhost/loan_calc_temp/`
+- `http://localhost/loan_calc_smarty/`
+
+Jeśli używasz wersji Smarty, upewnij się, że biblioteka Smarty jest dostępna pod ścieżką używaną w `loan_calc_smarty/app/calc.php`.

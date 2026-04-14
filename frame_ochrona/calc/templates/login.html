@@ -1,0 +1,82 @@
+{% load static %}
+<!DOCTYPE HTML>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logowanie - Kalkulator Kredytowy</title>
+    <link rel="stylesheet" href="{% static 'assets/css/main.css' %}">
+    <noscript><link rel="stylesheet" href="{% static 'assets/css/noscript.css' %}"></noscript>
+</head>
+<body class="is-preload">
+
+    <div id="page-wrapper">
+
+        <section id="banner">
+            <div class="inner">
+                <div class="logo"><span class="icon fa-lock"></span></div>
+                <h2>Logowanie</h2>
+                <p>Wybierz role i podaj haslo</p>
+            </div>
+        </section>
+
+        <section id="wrapper">
+            <section id="one" class="wrapper spotlight style1">
+                <div class="inner">
+
+                    {% if errors %}
+                        <div class="box" style="background-color: #fee; border: 2px solid #c33;">
+                            <h3 style="color: #c33;">Błędy logowania:</h3>
+                            <ul style="margin-left: 20px; color: #c33;">
+                                {% for error in errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endif %}
+
+                    <div class="content">
+                        <form action="" method="post" style="color: #000;">
+                            {% csrf_token %}
+                            <div class="row gtr-uniform">
+                                <div class="col-12">
+                                    <label for="role" style="color: #000;">Rola:</label>
+                                    <select id="role" name="role" required style="color: #000;">
+                                        <option value="pracownik">pracownik</option>
+                                        <option value="menager">menager</option>
+                                    </select>
+                                </div>
+                                <div class="col-12">
+                                    <label for="password" style="color: #000;">Haslo:</label>
+                                    <input type="password" id="password" name="password" required style="color: #000;">
+                                </div>
+                                <div class="col-12">
+                                    <ul class="actions">
+                                        <li><input type="submit" value="Zaloguj" class="primary"></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="box" style="margin-top: 16px; background-color: #f6f9ff; border: 1px solid #a9b8e3; color: #000;">
+                        <p style="margin: 0;"><strong>Dane testowe:</strong></p>
+                        <p style="margin: 8px 0 0 0;">pracownik / pracownik123 (oprocentowanie > 5%)</p>
+                        <p style="margin: 4px 0 0 0;">menager / menager123 (oprocentowanie > 1%)</p>
+                    </div>
+
+                </div>
+            </section>
+        </section>
+
+    </div>
+
+    <script src="{% static 'assets/js/jquery.min.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.scrollex.min.js' %}"></script>
+    <script src="{% static 'assets/js/browser.min.js' %}"></script>
+    <script src="{% static 'assets/js/breakpoints.min.js' %}"></script>
+    <script src="{% static 'assets/js/util.js' %}"></script>
+    <script src="{% static 'assets/js/main.js' %}"></script>
+
+</body>
+</html>

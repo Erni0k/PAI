@@ -1,0 +1,144 @@
+{% load static %}
+<!DOCTYPE HTML>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulator Kredytowy</title>
+    <link rel="stylesheet" href="{% static 'assets/css/main.css' %}">
+    <noscript><link rel="stylesheet" href="{% static 'assets/css/noscript.css' %}"></noscript>
+</head>
+<body class="is-preload">
+
+    <div id="page-wrapper">
+
+        <section id="banner">
+            <div class="inner">
+                <div class="logo"><span class="icon fa-gem"></span></div>
+                <h2>Kalkulator Kredytowy</h2>
+                <p>Oblicz miesięczną ratę oraz całkowity koszt kredytu</p>
+                <p>Zalogowano jako: <strong>{{ role }}</strong></p>
+                <form action="{% url 'logout' %}" method="post" style="margin-top: 12px;">
+                    {% csrf_token %}
+                    <input type="submit" value="Wyloguj" class="button">
+                </form>
+            </div>
+        </section>
+
+        <section id="wrapper">
+
+            <section id="one" class="wrapper spotlight style1">
+                <div class="inner">
+
+                    {% if errors %}
+                        <div class="box" style="background-color: #fee; border: 2px solid #c33;">
+                            <h3 style="color: #c33;">Błędy walidacji:</h3>
+                            <ul style="margin-left: 20px; color: #c33;">
+                                {% for error in errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endif %}
+
+                    <div class="box" style="background-color: #eef6ff; border: 2px solid #4c5c96;">
+                        <p style="margin: 0; color: #2b3e7a;">
+                            Dla roli <strong>{{ role }}</strong> oprocentowanie musi byc wieksze niz <strong>{{ min_interest }}%</strong>.
+                        </p>
+                    </div>
+
+                    <div class="content">
+                        <form action="" method="get" style="color: #000;">
+                            <div class="row gtr-uniform">
+                                <div class="col-12">
+                                    <label for="amount" style="color: #000;">Kwota kredytu (zł):</label>
+                                    <input type="number" id="amount" name="amount" step="0.01" value="{{ amount }}" required style="color: #000;">
+                                </div>
+                                <div class="col-12">
+                                    <label for="interest" style="color: #000;">Oprocentowanie roczne (%):</label>
+                                    <select id="interest" name="interest" required style="color: #000;">
+                                        {% for i in interest_options %}
+                                            <option value="{{ i }}" {% if interest == i|stringformat:'s' %}selected{% endif %} style="color: #000;">{{ i }}%</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="col-12">
+                                    <label for="term" style="color: #000;">Czas trwania kredytu (lata):</label>
+                                    <input type="number" id="term" name="term" step="0.01" value="{{ term }}" required style="color: #000;">
+                                </div>
+                                <div class="col-12">
+                                    <ul class="actions">
+                                        <li><input type="submit" value="Oblicz ratę" class="primary"></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </section>
+
+            {% if result %}
+            <section id="two" class="wrapper alt spotlight style2">
+                <div class="inner">
+                    <div class="content">
+                        <h2 class="major">Wyniki obliczeń</h2>
+                        <div class="table-wrapper">
+                            <table class="alt">
+                                <tbody>
+                                    <tr>
+                                        <td><strong>Kwota kredytu:</strong></td>
+                                        <td>{{ result.amount }} zł</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Oprocentowanie roczne:</strong></td>
+                                        <td>{{ result.interest }}%</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Czas trwania:</strong></td>
+                                        <td>{{ result.term }} lat ({{ result.installments }} miesięcy)</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Miesięczna rata:</strong></td>
+                                        <td><span style="font-size: 1.2em; color: #4c5c96;"><strong>{{ result.installment }} zł</strong></span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Całkowita kwota do spłaty:</strong></td>
+                                        <td><span style="font-size: 1.2em; color: #4c5c96;"><strong>{{ result.total_amount }} zł</strong></span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Całkowity koszt kredytu:</strong></td>
+                                        <td>{{ result.total_cost }} zł</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            {% endif %}
+
+        </section>
+
+        <section id="footer">
+            <div class="inner">
+                <h2 class="major">Informacje o kalkulatorze</h2>
+                <p>Kalkulator kredytowy pozwala na szybkie obliczenie miesięcznej raty oraz całkowitego kosztu kredytu. Kalkulacja jest przybliżona i ma charakter informacyjny.</p>
+                <ul class="copyright">
+                    <li>&copy; 2026 Kalkulator Kredytowy. Wszelkie prawa zastrzeżone.</li>
+                    <li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+                </ul>
+            </div>
+        </section>
+
+    </div>
+
+    <script src="{% static 'assets/js/jquery.min.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.scrollex.min.js' %}"></script>
+    <script src="{% static 'assets/js/browser.min.js' %}"></script>
+    <script src="{% static 'assets/js/breakpoints.min.js' %}"></script>
+    <script src="{% static 'assets/js/util.js' %}"></script>
+    <script src="{% static 'assets/js/main.js' %}"></script>
+
+</body>
+</html>
